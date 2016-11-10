@@ -1,10 +1,10 @@
-package main
+package test
 
 import (
 	"fmt"
 )
 
-func gen(nums ...int) <-chan int {
+func Gen(nums ...int) <-chan int {
 	out := make(chan int)
 	go func() {
 		for _, n := range nums {
@@ -15,7 +15,7 @@ func gen(nums ...int) <-chan int {
 	return out
 }
 
-func sq(in <-chan int) <-chan int {
+func Sq(in <-chan int) <-chan int {
 	out := make(chan int)
 	go func() {
 		for n := range in {
@@ -26,16 +26,8 @@ func sq(in <-chan int) <-chan int {
 	return out
 }
 
-func consumer(in <-chan int) {
+func Consumer(in <-chan int) {
 	for n := range in {
 		fmt.Println(n)
 	}
-}
-
-func main() {
-	//set up the pipeline
-	c := gen(2, 3)
-	out := sq(c)
-	//consume the output
-	consumer(out)
 }
